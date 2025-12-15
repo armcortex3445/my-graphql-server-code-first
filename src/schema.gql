@@ -38,3 +38,7 @@ input AddCommentInput {
   postId: Int!
   content: String!
 }
+
+type Subscription {
+  commentAdded: Comment!
+}
