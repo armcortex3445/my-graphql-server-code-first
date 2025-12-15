@@ -3,6 +3,7 @@ import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
 import { Post } from './models/post.model';
 import { postsMocking } from '../_mocks/posts.mock';
+import { GraphQLError } from 'graphql/error';
 
 @Injectable()
 export class PostsService {
@@ -22,6 +23,18 @@ export class PostsService {
 
   findOne(id: number) {
     return this.posts.find((post) => post.id === id);
+  }
+
+  upvoteById(id: number) {
+    const post = this.findOne(id);
+
+    if (!post) {
+      throw new GraphQLError(`Not Found post ${id}`);
+    }
+
+    post.votes++;
+
+    return post;
   }
 
   // update(id: number, updatePostInput: UpdatePostInput) {
