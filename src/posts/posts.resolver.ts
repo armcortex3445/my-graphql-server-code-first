@@ -2,6 +2,8 @@ import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { PostsService } from './posts.service';
 import { Post } from './models/post.model';
 import { UpvotePostInput } from './dto/upvote-post.input';
+import { Comment } from './models/comment.model';
+import { AddCommentInput } from './dto/add-comment.input';
 
 @Resolver(() => Post)
 export class PostsResolver {
@@ -13,6 +15,12 @@ export class PostsResolver {
     return this.postsService.upvoteById(postId);
   }
 
+  @Mutation(() => Comment)
+  addComment(@Args('addCommentInput') addCommentInput: AddCommentInput) {
+    const newComment = this.postsService.addComment(addCommentInput);
+
+    return newComment;
+  }
   // @Mutation(() => Post)
   // createPost(@Args('createPostInput') createPostInput: CreatePostInput) {
   //   return this.postsService.create(createPostInput);
