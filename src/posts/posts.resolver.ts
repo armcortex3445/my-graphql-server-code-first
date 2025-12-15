@@ -1,12 +1,17 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { PostsService } from './posts.service';
 import { Post } from './models/post.model';
-import { CreatePostInput } from './dto/create-post.input';
-import { UpdatePostInput } from './dto/update-post.input';
+import { UpvotePostInput } from './dto/upvote-post.input';
 
 @Resolver(() => Post)
 export class PostsResolver {
   constructor(private readonly postsService: PostsService) {}
+
+  @Mutation(() => Post)
+  upvotePost(@Args('upvotePostInput') upvotePostInput: UpvotePostInput) {
+    const { postId } = upvotePostInput;
+    return this.postsService.upvoteById(postId);
+  }
 
   // @Mutation(() => Post)
   // createPost(@Args('createPostInput') createPostInput: CreatePostInput) {
