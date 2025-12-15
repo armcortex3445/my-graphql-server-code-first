@@ -5,6 +5,7 @@ export const postsMocking = [
     votes: 2,
     authorId: 1,
     createdAt: new Date('2015-12-17T03:24:00Z'),
+    comments: [],
   },
   {
     id: 2,
@@ -12,6 +13,7 @@ export const postsMocking = [
     votes: 2,
     authorId: 1,
     createdAt: new Date('2015-12-18T03:24:00Z'),
+    comments: [],
   },
   {
     id: 3,
@@ -19,6 +21,7 @@ export const postsMocking = [
     votes: 2,
     authorId: 1,
     createdAt: new Date('2015-12-19T03:24:00Z'),
+    comments: [],
   },
   {
     id: 4,
@@ -26,5 +29,6 @@ export const postsMocking = [
     votes: 2,
     authorId: 2,
     createdAt: new Date('2015-12-20T03:24:00Z'),
+    comments: [],
   },
 ];
