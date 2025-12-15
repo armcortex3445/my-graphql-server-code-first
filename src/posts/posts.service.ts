@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePostInput } from './dto/create-post.input';
-import { UpdatePostInput } from './dto/update-post.input';
 import { Post } from './models/post.model';
 import { postsMocking } from '../_mocks/posts.mock';
 import { GraphQLError } from 'graphql/error';
+import { Comment } from './models/comment.model';
+import { AddCommentInput } from './dto/add-comment.input';
 
 @Injectable()
 export class PostsService {
-  private posts = postsMocking;
+  private posts: Post[] = postsMocking;
+  commentId = 1;
 
   // create(createPostInput: CreatePostInput) {
   //   return 'This action adds a new post';
@@ -35,6 +36,19 @@ export class PostsService {
     post.votes++;
 
     return post;
+  }
+
+  addComment(input: AddCommentInput) {
+    const { postId, content } = input;
+    const post = this.findOne(postId);
+
+    if (!post) {
+      throw new GraphQLError(`Not Found post ${postId}`);
+    }
+    const newComment = { id: this.commentId++, content };
+    post.comments.push(newComment);
+
+    return newComment;
   }
 
   // update(id: number, updatePostInput: UpdatePostInput) {
