@@ -2,10 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Comment {
+  id: Int!
+  content: String!
+}
+
 type Post {
   id: Int!
   title: String!
   votes: Int!
+  comments: [Comment]!
 }
 
 type Author {
@@ -21,8 +27,14 @@ type Query {
 
 type Mutation {
   upvotePost(upvotePostInput: UpvotePostInput!): Post!
+  addComment(addCommentInput: AddCommentInput!): Comment!
 }
 
 input UpvotePostInput {
   postId: Int!
+}
+
+input AddCommentInput {
+  postId: Int!
+  content: String!
 }
