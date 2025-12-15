@@ -1,4 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Comment } from './comment.model';
 
 @ObjectType()
 export class Post {
@@ -10,6 +11,9 @@ export class Post {
 
   @Field((type) => Int)
   votes: number;
+
+  @Field((type) => [Comment], { nullable: 'items' })
+  comments: Comment[];
 
   authorId: number;
 }
