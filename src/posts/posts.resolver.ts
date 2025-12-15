@@ -4,10 +4,15 @@ import { Post } from './models/post.model';
 import { UpvotePostInput } from './dto/upvote-post.input';
 import { Comment } from './models/comment.model';
 import { AddCommentInput } from './dto/add-comment.input';
+import { Inject } from '@nestjs/common';
+import { PubSub } from 'graphql-subscriptions';
 
 @Resolver(() => Post)
 export class PostsResolver {
-  constructor(private readonly postsService: PostsService) {}
+  constructor(
+    private readonly postsService: PostsService,
+    @Inject('PUB_SUB') private readonly pubSub: PubSub,
+  ) {}
 
   @Mutation(() => Post)
   upvotePost(@Args('upvotePostInput') upvotePostInput: UpvotePostInput) {
@@ -16,8 +21,11 @@ export class PostsResolver {
   }
 
   @Mutation(() => Comment)
-  addComment(@Args('addCommentInput') addCommentInput: AddCommentInput) {
+  async addComment(@Args('addCommentInput') addCommentInput: AddCommentInput) {
     const newComment = this.postsService.addComment(addCommentInput);
+    await this.pubSub.publish('commentAdded', {
+      commentAdded: newComment,
+    });
 
     return newComment;
   }
